@@ -6,7 +6,11 @@ class User(models.Model):
     lastName = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=100)
-    phone_area_code = models.CharField(max_length=100)
-    phone_country_code = models.CharField(max_length=100)
+    
+
+class Phone(models.Model):
+    ownerEmail = models.EmailField(max_length=100)
+    number = models.CharField(max_length=100)
+    area_code = models.CharField(max_length=100)
+    country_code = models.CharField(max_length=100)
 
