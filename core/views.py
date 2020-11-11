@@ -32,6 +32,7 @@ def signup(request):
         response = {"Error": "Invalid method"}
     return JsonResponse(response)
 
+@csrf_exempt
 def signin(request):
     if request.method == "POST":
         login_information = json.loads(request.body.decode('UTF-8'))
@@ -46,7 +47,25 @@ def signin(request):
         response = {"Error": "Invalid method"}
     return JsonResponse(response)
 
-
+@csrf_exempt
 def me(request):
-    pass
+    if request.method == "GET":
+        user = User.objects.get(email=email)
+        phones = Phone.objects.get(ownerEmail=email)
+        response = {
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "email": user.email,
+            "phones": []
+        }
+        for phone in phones:
+            phone_json = {
+                "number": phone["number"],
+                "area_code": phone["area_code"],
+                "country_code": phone["country_code"]
+            }
+            response["phones"].append(phone_json)
+    else:
+        response = {"Error": "Invalid method"}
+    return JsonResponse(response)
 
