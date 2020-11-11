@@ -38,8 +38,8 @@ def signin(request):
         login_information = json.loads(request.body.decode('UTF-8'))
         email = login_information["email"]
         password = login_information["password"]
-        user = User.objects.get(email=email)
-        if user and user.password == password:
+        user = User.objects.filter(email=email)
+        if user.count() == 1 and user.first().password == password:
             response = {"Sucess": "Login sucessfully"}
         else:
             response = {"Error": "Invalid e-mail or password"}
