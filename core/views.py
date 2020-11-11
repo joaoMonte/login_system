@@ -1,12 +1,12 @@
 import json
 
-import python_jwt as jwt
 import jwcrypto.jwk as jwk
 import datetime
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import User, Phone
+from .utils import generateToken
 
 # Create your views here.
 @csrf_exempt
@@ -37,8 +37,7 @@ def signup(request):
                 request.session["key_json"] = jwk.JWK.generate(kty='oct', size=256).export()
             
             key = jwk.JWK.from_json(request.session["key_json"])
-            user_info = {"email": user_json["email"], "password": user_json["password"] }
-            token = jwt.generate_jwt(user_info, key, 'HS256', datetime.timedelta(minutes=10))
+            token = generateToken(new_user.email, new_user.password, key)
             response = {"token": token}
     else:
         response = {"Error": "Invalid method"}
@@ -46,7 +45,6 @@ def signup(request):
 
 @csrf_exempt
 def signin(request):
-    print(key)
 
     if request.method == "POST":
         login_information = json.loads(request.body.decode('UTF-8'))
@@ -54,8 +52,9 @@ def signin(request):
         password = login_information["password"]
         user = User.objects.filter(email=email)
         if user.count() == 1 and user.first().password == password:
-
-            response = {"Sucess": "Login sucessfully"}
+            key = jwk.JWK.from_json(request.session["key_json"])
+            token = generateToken(new_user.email, new_user.password, key)
+            response = {"token": token}
         else:
             response = {"Error": "Invalid e-mail or password"}
     else:
@@ -64,8 +63,6 @@ def signin(request):
 
 @csrf_exempt
 def me(request):
-    print(key)
-
     if request.method == "GET":
         user = User.objects.get(email=email)
         phones = Phone.objects.get(ownerEmail=email)
