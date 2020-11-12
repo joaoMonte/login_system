@@ -24,4 +24,16 @@ signup_schema = {
     "required": ["firstName", "lastName", "email", "password", "phones"],
     "additionalProperties": False,
 }
+
+signin_schema = {
+    "title": "The schema for signin",
+    "type": "object",
+    "properties": {
+        "email": {"type": "string"},
+        "password": {"type": "string"},
+    }
+    "required": ["email", "password"],
+    "additionalProperties": False,
+}
+  
      
