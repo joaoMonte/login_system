@@ -53,7 +53,7 @@ def signin(request):
         user = User.objects.filter(email=email)
         if user.count() == 1 and user.first().password == password:
             key = jwk.JWK.from_json(request.session["key_json"])
-            token = generateToken(new_user.email, new_user.password, key)
+            token = generateToken(email, password, key)
             response = {"token": token}
         else:
             response = {"Error": "Invalid e-mail or password"}
