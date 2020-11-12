@@ -19,7 +19,7 @@ from core.views import signin, signup, me
 
 urlpatterns = [
     path('secret/', admin.site.urls),
-    path('signin', signin),
-    path('signup', signup),
-    path('me', me)
+    path('signin', signin, name="signin"),
+    path('signup', signup, name="signup"),
+    path('me', me, name="me")
 ]
