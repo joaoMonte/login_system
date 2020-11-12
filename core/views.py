@@ -66,6 +66,8 @@ def signin(request):
             password = login_information["password"]
             user = User.objects.filter(email=email)
             if user.count() == 1 and user.first().password == password:
+                if "key_json" not in request.session:
+                    request.session["key_json"] = jwk.JWK.generate(kty='oct', size=256).export()
                 key = jwk.JWK.from_json(request.session["key_json"])
                 token = generateToken(email, password, key)
                 response = {"token": token}
@@ -83,6 +85,9 @@ def me(request):
         if 'Authorization' in request.headers:
             
             token = request.headers['Authorization']
+            if "key_json" not in request.session:
+                    request.session["key_json"] = jwk.JWK.generate(kty='oct', size=256).export()
+
             key = jwk.JWK.from_json(request.session["key_json"])
             try:
                 data = jwt.verify_jwt(token, key, ['HS256'])[1]
