@@ -1,7 +1,7 @@
 import json
 
 import jwcrypto.jwk as jwk
-import datetime
+import python_jwt as jwt
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -72,7 +72,7 @@ def me(request):
             email = data["email"]
             
             user = User.objects.get(email=email)
-            phones = Phone.objects.get(ownerEmail=email)
+            phones = Phone.objects.filter(ownerEmail=email)
             response = {
                 "firstName": user.firstName,
                 "lastName": user.lastName,
@@ -81,9 +81,9 @@ def me(request):
             }
             for phone in phones:
                 phone_json = {
-                    "number": phone["number"],
-                    "area_code": phone["area_code"],
-                    "country_code": phone["country_code"]
+                    "number": phone.number,
+                    "area_code": phone.area_code,
+                    "country_code": phone.country_code
                 }
                 response["phones"].append(phone_json)
         else:
