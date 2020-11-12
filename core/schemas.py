@@ -7,7 +7,7 @@ signup_schema = {
         "email": {
             "type": "string",
             "pattern": "^[a-z0-9._]+[@]{1}[a-z0-9_]+[.]{1}[a-z0-9_]+$"
-        }
+        },
         "password": {"type": "string", "minLength": 1},
         "phones": {
             "type": "array",
@@ -19,7 +19,7 @@ signup_schema = {
                        "pattern": "^[0-9]+$"
                     },
                     "area_code": {
-                        "type": "string"
+                        "type": "string",
                         "pattern": "^[0-9]+$"
                     },
                     "country_code": {
@@ -32,7 +32,7 @@ signup_schema = {
             },
             "minItems": 1
         }
-    }
+    },
     "required": ["firstName", "lastName", "email", "password", "phones"],
     "additionalProperties": False,
 }
@@ -46,7 +46,7 @@ signin_schema = {
             "pattern": "^[a-z0-9._]+[@]{1}[a-z0-9_]+[.]{1}[a-z0-9_]+$"
         },
         "password": {"type": "string", "minLength": 1},
-    }
+    },
     "required": ["email", "password"],
     "additionalProperties": False,
 }
