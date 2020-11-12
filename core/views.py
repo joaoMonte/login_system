@@ -68,24 +68,27 @@ def me(request):
             
             token = request.headers['Authorization']
             key = jwk.JWK.from_json(request.session["key_json"])
-            data = jwt.verify_jwt(token, key, ['HS256'])[1]
-            email = data["email"]
-            
-            user = User.objects.get(email=email)
-            phones = Phone.objects.filter(ownerEmail=email)
-            response = {
-                "firstName": user.firstName,
-                "lastName": user.lastName,
-                "email": user.email,
-                "phones": []
-            }
-            for phone in phones:
-                phone_json = {
-                    "number": phone.number,
-                    "area_code": phone.area_code,
-                    "country_code": phone.country_code
+            try:
+                data = jwt.verify_jwt(token, key, ['HS256'])[1]
+                email = data["email"]
+                
+                user = User.objects.get(email=email)
+                phones = Phone.objects.filter(ownerEmail=email)
+                response = {
+                    "firstName": user.firstName,
+                    "lastName": user.lastName,
+                    "email": user.email,
+                    "phones": []
                 }
-                response["phones"].append(phone_json)
+                for phone in phones:
+                    phone_json = {
+                        "number": phone.number,
+                        "area_code": phone.area_code,
+                        "country_code": phone.country_code
+                    }
+                    response["phones"].append(phone_json)
+            except jwt._JWTError:
+                response = {"Error": "Unauthorized - invalid session"}    
         else:
             response = {"Error": "Unauthorized"}    
     else:
