@@ -2,6 +2,7 @@ import json
 
 import jwcrypto.jwk as jwk
 import python_jwt as jwt
+from jwcrypto.jws import InvalidJWSObject
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -122,7 +123,7 @@ def me(request):
                     response["phones"].append(phone_json)
             except jwt._JWTError:
                 response = {"Error": "Unauthorized - invalid session"}
-            except KeyError:
+            except InvalidJWSObject:
                 response = {"Error": "Invalid JWT"}    
         else:
             response = {"Error": "Unauthorized"}    
