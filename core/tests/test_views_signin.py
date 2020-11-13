@@ -4,7 +4,7 @@ from ..models import User, Phone
 import json
 
 
-class TestSignup(TestCase):
+class TestSignin(TestCase):
     @classmethod
     def setUpTestData(cls):
         new_user = User(firstName = "joao",
