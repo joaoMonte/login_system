@@ -10,7 +10,7 @@ from .utils import generateToken
 from .schemas import signin_schema, signup_schema
 from jsonschema import validate, ValidationError
 
-# Create your views here.
+#The csrf token authentication is disabled to allow testing using Postman
 @csrf_exempt
 def signup(request):
     #This view only accepts POST requests
