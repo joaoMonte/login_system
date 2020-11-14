@@ -23,7 +23,7 @@ def signup(request):
 
             #Check if the email already exists on database
             if User.objects.filter(email=user_json["email"]).count() > 0:
-                response = {"Error": "E-mail already exists"}
+                response = {"message": "E-mail already exists", "errorCode": 1}
             else:
                 #Register the user and his phones
                 new_user = User(
@@ -53,9 +53,9 @@ def signup(request):
                 token = generateToken(new_user.email, new_user.password, key)
                 response = {"token": token}
         except ValidationError as err:
-            response = {"Validation Error" : str(err)}
+            response = {"message": "Validation error", "errorCode": 2}
     else:
-        response = {"Error": "Invalid method"}
+        response = {"message": "Invalid method", "errorCode": 3}
     return JsonResponse(response)
 
 @csrf_exempt
@@ -81,11 +81,11 @@ def signin(request):
                 token = generateToken(email, password, key)
                 response = {"token": token}
             else:
-                response = {"Error": "Invalid e-mail or password"}
+                response = {"message": "Invalid e-mail or password", "errorCode": 4}
         except ValidationError as err:
-            response = {"Validation Error" : str(err)}
+            response = {"message": "Validation error", "errorCode": 2}
     else:
-        response = {"Error": "Invalid method"}
+        response = {"message": "Invalid method", "errorCode": 3}
     return JsonResponse(response)
 
 @csrf_exempt
@@ -122,12 +122,12 @@ def me(request):
                     }
                     response["phones"].append(phone_json)
             except jwt._JWTError:
-                response = {"Error": "Unauthorized - invalid session"}
+                response = {"message": "Unauthorized - invalid session", "errorCode": 5}
             except InvalidJWSObject:
-                response = {"Error": "Invalid JWT"}    
+                response = {"message": "Invalid JWT", "errorCode": 6}    
         else:
-            response = {"Error": "Unauthorized"}    
+            response = {"message": "Unauthorized", "errorCode": 7}    
     else:
-        response = {"Error": "Invalid method"}
+        response = {"message": "Invalid method", "errorCode": 3}
     return JsonResponse(response)
 

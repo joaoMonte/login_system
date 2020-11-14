@@ -45,7 +45,7 @@ class TestSignin(TestCase):
         response = self.client.post(reverse("signin"),
                                     json.dumps(user),
                                     content_type="application/json")
-        assert response.json() == {"Error": "Invalid e-mail or password"}
+        assert response.json() == {"message": "Invalid e-mail or password", "errorCode": 4}
 
     def test_login_user_wrong_password(self):
         user = {
@@ -55,7 +55,7 @@ class TestSignin(TestCase):
         response = self.client.post(reverse("signin"),
                                     json.dumps(user),
                                     content_type="application/json")
-        assert response.json() == {"Error": "Invalid e-mail or password"}
+        assert response.json() == {"message": "Invalid e-mail or password", "errorCode": 4}
 
 
     def test_insert_user_invalid_email(self):
@@ -72,6 +72,6 @@ class TestSignin(TestCase):
             response = self.client.post(reverse("signin"),
                                         json.dumps(user),
                                         content_type="application/json")
-            assert "Validation Error" in response.json()
+            assert response.json() == {"message": "Validation error", "errorCode": 2}
 
     
