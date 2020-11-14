@@ -1,6 +1,6 @@
 Django==2.2.14
 gunicorn==19.9.0
-jsonschema==0.0.0
+jsonschema
 jwcrypto==0.8
 python-jwt==3.3.0
 pytz==2019.2
