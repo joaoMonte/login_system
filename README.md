@@ -86,5 +86,5 @@ Em caso de erro, uma mensagem será informada. Seja o erro de validação, login
 
 ## me
 
-Endpoint para recuperar as informações do usuário. Compatível apenas com o verbo GET. Deve ser fornecido no header da requisição o campo Authorization contendo como valor um token obtido nos endpoints signup ou signin. Em caso de erro, ou não fornecimento do token, uma mensagem é retornada. Em caso de sucesso é retornada todas as informações do usuário cadastrado, exceto o password.
+Endpoint para recuperar as informações do usuário. Compatível apenas com o verbo GET. Deve ser fornecido no header da requisição o campo Authorization contendo como valor um token obtido nos endpoints signup ou signin. Em caso de erro, ou não fornecimento do token, uma mensagem é retornada. Em caso de sucesso são retornadas todas as informações do usuário cadastrado, exceto o password.
 
