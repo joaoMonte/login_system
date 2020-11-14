@@ -64,4 +64,4 @@ class TestMe(TestCase):
     
     def test_auth_without_token(self):
         response = self.client.get(reverse("me"))
-        assert response.json() == {"Error": "Unauthorized"}
+        assert response.json() == {"message": "Unauthorized", "errorCode": 7}

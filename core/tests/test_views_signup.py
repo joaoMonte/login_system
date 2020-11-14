@@ -78,7 +78,7 @@ class TestSignup(TestCase):
                                     json.dumps(new_user),
                                     content_type="application/json")
         
-        assert response.json() == {"Error": "E-mail already exists"}
+        assert response.json() == {"message": "E-mail already exists", "errorCode": 1}
 
 
     def test_insert_user_empty_name(self):
@@ -103,7 +103,7 @@ class TestSignup(TestCase):
         response = self.client.post(reverse("signup"),
                                     json.dumps(new_user),
                                     content_type="application/json")
-        assert "Validation Error" in response.json()
+        assert response.json() == {"message": "Validation error", "errorCode": 2}
 
     def test_insert_user_invalid_name(self):
         new_user = {
@@ -127,7 +127,7 @@ class TestSignup(TestCase):
         response = self.client.post(reverse("signup"),
                                     json.dumps(new_user),
                                     content_type="application/json")
-        assert "Validation Error" in response.json()
+        assert response.json() == {"message": "Validation error", "errorCode": 2}
 
     def test_insert_user_invalid_email(self):
         new_user = {
@@ -157,7 +157,7 @@ class TestSignup(TestCase):
             response = self.client.post(reverse("signup"),
                                         json.dumps(new_user),
                                         content_type="application/json")
-            assert "Validation Error" in response.json()
+        assert response.json() == {"message": "Validation error", "errorCode": 2}
 
     def test_insert_user_without_phones(self):
         new_user = {
@@ -170,7 +170,7 @@ class TestSignup(TestCase):
         response = self.client.post(reverse("signup"),
                                     json.dumps(new_user),
                                     content_type="application/json")
-        assert "Validation Error" in response.json()
+        assert response.json() == {"message": "Validation error", "errorCode": 2}
     
     def test_insert_user_invalid_phone_number(self):
         new_user = {
@@ -194,7 +194,7 @@ class TestSignup(TestCase):
         response = self.client.post(reverse("signup"),
                                     json.dumps(new_user),
                                     content_type="application/json")
-        assert "Validation Error" in response.json()
+        assert response.json() == {"message": "Validation error", "errorCode": 2}
     
     def test_insert_user_invalid_phone_area_code(self):
         new_user = {
@@ -218,7 +218,7 @@ class TestSignup(TestCase):
         response = self.client.post(reverse("signup"),
                                     json.dumps(new_user),
                                     content_type="application/json")
-        assert "Validation Error" in response.json()
+        assert response.json() == {"message": "Validation error", "errorCode": 2}
 
     def test_insert_user_invalid_phone_country_code(self):
         new_user = {
@@ -242,6 +242,6 @@ class TestSignup(TestCase):
         response = self.client.post(reverse("signup"),
                                     json.dumps(new_user),
                                     content_type="application/json")
-        assert "Validation Error" in response.json()
+        assert response.json() == {"message": "Validation error", "errorCode": 2}
 
 
